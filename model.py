@@ -7,7 +7,6 @@ channel_cnt = 256
 k_s = 64
 ctofc = 41
 class cnn(nn.Module):
-
     def __init__(self):
         super(cnn, self).__init__()
         
@@ -97,4 +96,4 @@ class cnn(nn.Module):
         x = F.log_softmax(x, dim = 1)
 
         return x
-        
+

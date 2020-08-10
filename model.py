@@ -76,6 +76,9 @@ class cnn(nn.Module):
         #print(x.shape)
         x = torch.sin(x)
         asdfasdff
+        y = x + z
+        
+
         #print(x.shape)
         x = self.bn2(x)
         x = self.fc2(x)

@@ -13,7 +13,7 @@ import torch.optim as optim
 
 from data_loader import Dataset
 
-from model import cnn
+from model import cnn, mel_cnn
 
 
 # Feature, Label Shape을 확인합니다.
@@ -23,23 +23,24 @@ from model import cnn
 #device = torch.device("cuda:0")
 
 batch_size = 128
-data_size = 90000
+data_size = 50000
 
 dl_params = {'batch_size': batch_size, 'shuffle': True}
 
 training_set = Dataset(rng = [0, data_size])
 training_gen = DataLoader(training_set, **dl_params)
 
-test_set = Dataset(rng = [data_size, data_size + 10000])
+test_set = Dataset(rng = [data_size, data_size + 5000])
 test_gen = DataLoader(test_set, **dl_params)
 
 
 device = torch.device("cuda:0")
-model = cnn()
+model = mel_cnn()
+#model = torch.load("model.dat")
 model.to(device)
 model.train()
 
-optimizer = optim.Adam(model.parameters(), lr = 1e-3)
+optimizer = optim.Adam(model.parameters(), lr = 1e-4)
 
 criterion = torch.nn.KLDivLoss('batchmean')
 #criterion = nn.BCEWithLogitsLoss()
@@ -54,7 +55,7 @@ for epoch in range(100):
         optimizer.zero_grad()
         #x_batch = x_batch.to(device)
         #y_batch = y_batch.to(device)
-        y_predicted = model(x_batch)
+        y_predicted = model(x_batch.to(device))
 
         #print(x_batch)
         #print(y_batch, y_predicted)
@@ -67,11 +68,11 @@ for epoch in range(100):
         idx += 1
         
     print(loss.item())
-
+    torch.save(model, "model.dat")
     model.eval()
     loss_test = 0
     for x_test, y_test in test_gen:
-        y_predicted = model(x_test)
+        y_predicted = model(x_test.to(device))
         loss = nn.KLDivLoss(reduction= "sum")(y_predicted, y_test.float().to(device))
         loss_test += loss.item()
     

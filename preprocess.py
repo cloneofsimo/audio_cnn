@@ -17,16 +17,17 @@ def specto_data_loader(files, data_tot):
         y, sr = librosa.load(file)
         mel = librosa.feature.melspectrogram(
             y = y,
-            n_fft = 1024,
-            n_mels = 256,
-            hop_length= 512
+            sr = sr,
+            n_fft = 512,
+            hop_length= 256
         )
         logamp = librosa.amplitude_to_db
         logspec = logamp(mel, ref = 1.0)
-        librosa.display.specshow(logspec, y_axis='mel', fmax=8000, x_axis='time')
+        # librosa.display.specshow(logspec, y_axis='mel', fmax=8000, x_axis='time')
         # plt.title('Mel Spectrogram')    
         # plt.colorbar(format='%+2.0f dB')
         # plt.show()
+        # print(logspec.shape)
         # break
         out.append(logspec)
         idx += 1
@@ -39,6 +40,6 @@ def specto_data_loader(files, data_tot):
     return out
 
 x_data = glob('data/train/*.wav')
-data_tot = 20000
+data_tot = 2000000
 #print(data_tot)
 x_data = specto_data_loader(x_data, data_tot)

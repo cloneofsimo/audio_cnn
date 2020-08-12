@@ -23,7 +23,7 @@ from model import cnn
 #device = torch.device("cuda:0")
 
 batch_size = 128
-data_size = 20000
+data_size = 90000
 
 dl_params = {'batch_size': batch_size, 'shuffle': True}
 
@@ -39,7 +39,7 @@ model = cnn()
 model.to(device)
 model.train()
 
-optimizer = optim.Adam(model.parameters(), lr = 1e-2)
+optimizer = optim.Adam(model.parameters(), lr = 1e-3)
 
 criterion = torch.nn.KLDivLoss('batchmean')
 #criterion = nn.BCEWithLogitsLoss()

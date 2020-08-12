@@ -1,3 +1,5 @@
 import torch
 
-print(torch.tensor([2,3,4]))
+x_data = torch.load("spectro_preprocess.dat")
+
+print(x_data.shape)

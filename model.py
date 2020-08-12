@@ -75,7 +75,7 @@ class cnn(nn.Module):
         x = self.dp1(x)
         #print(x.shape)
         x = torch.sin(x)
-        asdfasdff
+        
         #print(x.shape)
         x = self.bn2(x)
         x = self.fc2(x)

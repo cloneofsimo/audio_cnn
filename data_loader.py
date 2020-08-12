@@ -55,12 +55,13 @@ device = torch.device("cuda:0")
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, rng):
         x_data = glob('data/train/*.wav')
-        data_tot = rng[1]
+        #data_tot = rng[1]
         #print(data_tot)
         #x_data = specto_data_loader(x_data, data_tot)
-        x_data = data_loader(x_data, data_tot)
-        x_data = x_data[:, ::8] # 매 8번째 데이터만 사용
-        x_data = x_data[rng[0]:rng[1]]/30000 # 최대값 30,000 을 나누어 데이터 정규화
+        #x_data = data_loader(x_data, data_tot)
+        #x_data = x_data[:, ::8] # 매 8번째 데이터만 사용
+        x_data = torch.load("spectro_preprocess.dat")
+        #x_data = x_data[rng[0]:rng[1]]/30000 # 최대값 30,000 을 나누어 데이터 정규화
         
         #print(x_data[0])
         #x_data = x_data.reshape(x_data.shape[0], x_data.shape[1], 1) # CNN 모델에 넣기 위한 데이터 shape 변경
@@ -73,7 +74,7 @@ class Dataset(torch.utils.data.Dataset):
         #y_data = torch.tensor(4*y_data).long().to(device)
         #y_data = (y_data > 0).long().to(device)
 
-        self.x_data = torch.tensor(x_data)
+        self.x_data = x_data
         self.y_data = torch.tensor(y_data)
 
     
